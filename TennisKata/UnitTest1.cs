@@ -35,7 +35,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult);
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
 
@@ -50,7 +50,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
         [TestCase(0, 0, ResultTypes.NONE, ResultTypes.NONE)]
@@ -64,7 +64,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
         [TestCase(1, 2, ResultTypes.LOVE, ResultTypes.FIFTEEN)]
@@ -80,7 +80,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
         [TestCase(4, 1, ResultTypes.WIN, ResultTypes.LOST)]
@@ -96,7 +96,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
         [TestCase(4, 4, ResultTypes.DEUCE, ResultTypes.DEUCE)]
@@ -107,7 +107,7 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result, _scoreProcessor.Process(_setResult));
         }
 
         [TestCase(4, 3, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
@@ -123,13 +123,14 @@ namespace TennisKata
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(_result, _setResult); ;
+            Assert.AreEqual(_result,_scoreProcessor.Process(_setResult));
         }
 
         [Test]
-        public void Score_processor_test()
+        public void Score_processor_for_negativeNumber_test()
         {
-            Assert.Throws<NegativeScoreNotSupportedException>(() => _scoreProcessor.Process(new SetResult { ScorePlayer1 = -1, ScorePlayer2 = -1 });
+            Assert.Throws<NegativeScoreNotSupportedException>(() => _scoreProcessor.Process(new SetResult { ScorePlayer1 = -1, ScorePlayer2 = -1 }));
         }
+
     }
 }
