@@ -13,98 +13,114 @@ namespace TennisKata
     public class Tests
     {
         private SetResult _setResult;
+        private Result _result;
         [SetUp]
         public void Setup()
         {
             _setResult = new SetResult();
+            _result = new Result();
         }
 
-        [TestCase(1, 0, "Love for player 1")]
-        [TestCase(2, 0, "Fifteen for player 1")]
-        [TestCase(3, 0, "Thirty  for player 1")]
-        [TestCase(4, 0, "Win for player 1")]
-        public void Correct_State_For_Player1(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(1, 0, ResultTypes.LOVE, ResultTypes.NONE)]
+        [TestCase(2, 0, ResultTypes.FIFTEEN, ResultTypes.NONE)]
+        [TestCase(3, 0, ResultTypes.THIRTY, ResultTypes.NONE)]
+        [TestCase(4, 0, ResultTypes.WIN, ResultTypes.LOST)]
+        public void Correct_State_For_Player1(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
-
-            Assert.AreEqual(result, _setResult);
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
+            
+            Assert.AreEqual(_result, _setResult);
         }
 
 
-        [TestCase(0, 1, "Love for player 2")]
-        [TestCase(0, 2, "Fifteen for player 2")]
-        [TestCase(0, 3, "Thirty player 2")]
-        [TestCase(0, 4, "Win for player 2")]
-        public void Correct_State_For_Player2(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(0, 1, ResultTypes.NONE, ResultTypes.LOVE)]
+        [TestCase(0, 2, ResultTypes.NONE, ResultTypes.FIFTEEN)]
+        [TestCase(0, 3, ResultTypes.NONE, ResultTypes.THIRTY)]
+        [TestCase(0, 4, ResultTypes.LOST, ResultTypes.WIN)]
+        public void Correct_State_For_Player2(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
 
-        [TestCase(0, 0, "")]
-        [TestCase(1, 1, "Love - Love")]
-        [TestCase(2, 2, "Fifteen - Fifteen")]
-        [TestCase(3, 3, "Thirty - Thirty")]
-        public void Same_Result_For_All_Player(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(0, 0, ResultTypes.NONE, ResultTypes.NONE)]
+        [TestCase(1, 1, ResultTypes.LOVE , ResultTypes.LOVE)]
+        [TestCase(2, 2, ResultTypes.FIFTEEN, ResultTypes.FIFTEEN)]
+        [TestCase(3, 3, ResultTypes.THIRTY, ResultTypes.THIRTY)]
+        public void Same_Result_For_All_Player(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
 
-        [TestCase(1, 2, "Love - Fifteen")]
-        [TestCase(2, 1, "Fifteen - Love")]
-        [TestCase(1, 3, "Love - Thirty")]
-        [TestCase(3, 1, "Thirty - Love")]
-        [TestCase(2, 3, "Fifteen - Thirty")]
-        [TestCase(3, 2, "Thirty - Fifteen")]
-        public void Different_Result_Before_Win(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(1, 2, ResultTypes.LOVE, ResultTypes.FIFTEEN)]
+        [TestCase(2, 1, ResultTypes.FIFTEEN, ResultTypes.LOVE)]
+        [TestCase(1, 3, ResultTypes.LOVE, ResultTypes.THIRTY)]
+        [TestCase(3, 1, ResultTypes.THIRTY, ResultTypes.LOVE)]
+        [TestCase(2, 3, ResultTypes.FIFTEEN, ResultTypes.THIRTY)]
+        [TestCase(3, 2, ResultTypes.THIRTY, ResultTypes.FIFTEEN)]
+        public void Different_Result_Before_Win(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
 
-        [TestCase(4, 1, "Win for player1")]
-        [TestCase(1, 4, "Win for player2")]
-        [TestCase(4, 2, "Win for player1")]
-        [TestCase(2, 4, "Win for player2")]
-        [TestCase(5, 3, "Win for player1")]
-        [TestCase(3, 5, "Win for player2")]
-        public void Winner_Looser_Match(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(4, 1, ResultTypes.WIN, ResultTypes.LOST)]
+        [TestCase(1, 4, ResultTypes.WIN, ResultTypes.LOST)]
+        [TestCase(4, 2, ResultTypes.WIN, ResultTypes.LOST)]
+        [TestCase(2, 4, ResultTypes.WIN, ResultTypes.LOST)]
+        [TestCase(5, 3, ResultTypes.WIN, ResultTypes.LOST)]
+        [TestCase(3, 5, ResultTypes.WIN, ResultTypes.LOST)]
+        public void Winner_Looser_Match(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
 
-        [TestCase(4, 4, "Deuce")]
-        public void Same_Result_For_All_Player_After_Third_Set(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(4, 4, ResultTypes.DEUCE, ResultTypes.DEUCE)]
+        public void Same_Result_For_All_Player_After_Third_Set(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
 
-        [TestCase(4, 3, "Advantage player1")]
-        [TestCase(3, 4, "Advantage player2")]
-        [TestCase(5, 4, "Advantage player1")]
-        [TestCase(4, 5, "Advantage player2")]
-        [TestCase(9, 8, "Advantage player1")]
-        [TestCase(8, 9, "Advantage player2")]
-        public void Advantage_Results_Test(int scorePlayer1, int scorePlayer2, string result)
+        [TestCase(4, 3, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        [TestCase(3, 4, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        [TestCase(5, 4, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        [TestCase(4, 5, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        [TestCase(9, 8, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        [TestCase(8, 9, ResultTypes.ADVANTAGE, ResultTypes.ADVANTAGE)]
+        public void Advantage_Results_Test(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
         {
             _setResult.ScorePlayer1 = scorePlayer1;
             _setResult.ScorePlayer2 = scorePlayer2;
+            _result.resPalyer1 = resPlayer1;
+            _result.resPalyer2 = resPlayer2;
 
-            Assert.AreEqual(result, _setResult); ;
+            Assert.AreEqual(_result, _setResult); ;
         }
     }
 }
