@@ -1,16 +1,20 @@
-﻿
-
-namespace TennisKata
+﻿namespace TennisKata
 {
     public class ScoreProcessor
     {
         public Result Process(SetResult result)
         {
-            if(result.ScorePlayer1 < 0 || result.ScorePlayer2 < 0) throw new NegativeScoreNotSupportedException("Errore risultato negativo");
+            if (result.ScorePlayer1 < 0 || result.ScorePlayer2 < 0) throw new NegativeScoreNotSupportedException("Errore risultato negativo");
 
-            
-            return new Result();
-            
+            else if (result.ScorePlayer1 >= 4 && result.ScorePlayer2 - result.ScorePlayer1 >= 2)
+                return new Result { resPalyer1 = ResultTypes.WIN, resPalyer2 = ResultTypes.LOST };
+            else if (result.ScorePlayer2 >= 4 && result.ScorePlayer2 - result.ScorePlayer1 >= 2)
+                return new Result { resPalyer2 = ResultTypes.WIN, resPalyer1 = ResultTypes.LOST };
+            else if (result.ScorePlayer1 >= 4 && result.ScorePlayer2 >= 4 && result.ScorePlayer1 == result.ScorePlayer2)
+                return new Result { resPalyer1 = ResultTypes.DEUCE, resPalyer2 = ResultTypes.DEUCE };
+
+
+            return new Result();         
         }
 
         private ResultTypes getResultFromScore(int score)
@@ -26,14 +30,5 @@ namespace TennisKata
             }
         }
 
-        private bool IsWinner(SetResult result)
-        {
-            return result.ScorePlayer1 >= 4 && result.ScorePlayer2 - result.ScorePlayer1 >= 2;
-        }
-
-        private bool IsDeuce(SetResult result)
-        {
-            return result.ScorePlayer1 >= 4 && result.ScorePlayer2 >= 4 && result.ScorePlayer1 == result.ScorePlayer2;
-        }
     }
 }
