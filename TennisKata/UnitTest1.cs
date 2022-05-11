@@ -14,11 +14,14 @@ namespace TennisKata
     {
         private SetResult _setResult;
         private Result _result;
+        private ScoreProcessor _scoreProcessor;
+
         [SetUp]
         public void Setup()
         {
             _setResult = new SetResult();
             _result = new Result();
+            _scoreProcessor = new ScoreProcessor();
         }
 
         [TestCase(1, 0, ResultTypes.LOVE, ResultTypes.NONE)]
@@ -31,7 +34,7 @@ namespace TennisKata
             _setResult.ScorePlayer2 = scorePlayer2;
             _result.resPalyer1 = resPlayer1;
             _result.resPalyer2 = resPlayer2;
-            
+
             Assert.AreEqual(_result, _setResult);
         }
 
@@ -51,7 +54,7 @@ namespace TennisKata
         }
 
         [TestCase(0, 0, ResultTypes.NONE, ResultTypes.NONE)]
-        [TestCase(1, 1, ResultTypes.LOVE , ResultTypes.LOVE)]
+        [TestCase(1, 1, ResultTypes.LOVE, ResultTypes.LOVE)]
         [TestCase(2, 2, ResultTypes.FIFTEEN, ResultTypes.FIFTEEN)]
         [TestCase(3, 3, ResultTypes.THIRTY, ResultTypes.THIRTY)]
         public void Same_Result_For_All_Player(int scorePlayer1, int scorePlayer2, ResultTypes resPlayer1, ResultTypes resPlayer2)
@@ -121,6 +124,12 @@ namespace TennisKata
             _result.resPalyer2 = resPlayer2;
 
             Assert.AreEqual(_result, _setResult); ;
+        }
+
+        [Test]
+        public void Score_processor_test()
+        {
+            Assert.Throws<NegativeScoreNotSupportedException>(() => _scoreProcessor.Process(new SetResult { ScorePlayer1 = -1, ScorePlayer2 = -1 });
         }
     }
 }
